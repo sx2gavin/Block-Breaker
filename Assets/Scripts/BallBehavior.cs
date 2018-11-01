@@ -1,50 +1,65 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BallBehavior: MonoBehaviour {
-    [SerializeField]
-    public GameObject Ball;
 
-    [SerializeField]
-    public Rigidbody2D BallRigidBody;
+    // config parameters
+    [SerializeField] public PaddleBehavior Paddle;
+    [SerializeField] public float BallSpeed = 10f;
 
-    private Vector2 _ballLocation;
-    private double _ballVelocity;
-    private Vector2 _direction;
-    private int _collisionCounter;
+    // states
+    private Vector2 _distance;
+    private Rigidbody2D _rigidbody2DComponent;
+    private bool _launched;
+    private Vector2 _ballDirection;
 
 	// Use this for initialization
-	void Start () {
-        /*_ballLocation = Ball.transform.position;
-        _ballVelocity = 0.1;
-        _direction = new Vector2(0, -1);
-        */
-        BallRigidBody.velocity = new Vector2(0, -1);
+	void Start () 
+    {
+        _launched = false;
+        _distance = transform.position - Paddle.transform.position;
+        _rigidbody2DComponent = GetComponent<Rigidbody2D>();
+        _ballDirection = new Vector2(0, 1);
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        // _ballLocation += new Vector2((float)(_direction.x * _ballVelocity), (float)(_direction.y * _ballVelocity));
-        // Ball.transform.position = _ballLocation;
-	}
+	void Update ()
+    {
+        if (_launched == false) 
+        {
+            StickBallToPaddle();
+            LaunchOnMouseClick();
+        }
+    }
+
+    private void LaunchOnMouseClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            _launched = true;
+            if (_rigidbody2DComponent != null)
+            {
+                _rigidbody2DComponent.velocity = BallSpeed * _ballDirection;
+            }
+        }
+    }
+
+    private void StickBallToPaddle()
+    {
+        Vector2 paddlePos = new Vector2(Paddle.transform.position.x, Paddle.transform.position.y);
+        transform.position = paddlePos + _distance;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // if (_collisionCounter == 0)
-        // {
-        //     _collisionCounter++;
-        //     ContactPoint2D contact = collision.GetContact(0);
-        //     Vector2 normal = contact.normal;
-        //     _direction = Reflection(_direction, normal);
-		// 
-        //     _ballVelocity += 0.001;
-        // }
-        // else
-        // {
-        //     _collisionCounter++;
-        //     return;
-        // }
+        //ContactPoint2D contact = collision.GetContact(0);
+        //_ballDirection = Reflection(contact.relativeVelocity, contact.normal);
+        //_ballDirection.Normalize();
+        //BallSpeed += 0.01f;
+
+        //_rigidbody2DComponent.velocity = BallSpeed * _ballDirection;
     }
 
     private Vector2 Reflection(Vector2 incomingVector, Vector2 normalVector)

@@ -2,22 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaddleBehavior : MonoBehaviour {
+public class PaddleBehavior : MonoBehaviour
+{
+    [SerializeField]
+    public float screenWidthInWorld = 16f;
 
     [SerializeField]
-    public Camera SceneCamera;
+    public float paddlePosXMin = 1f;
 
-    private Vector3 _paddleLocation; 
+    [SerializeField]
+    public float paddlePosXMax = 15f;
 
 	// Use this for initialization
-	void Start () {
-        _paddleLocation = this.transform.position;
+	void Start () 
+    {
+
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        Ray ray = SceneCamera.ScreenPointToRay(Input.mousePosition);
-        _paddleLocation.x = ray.origin.x;
-        this.transform.position = _paddleLocation;
+	// Update is called once per frame 
+	void Update () 
+    {
+        float paddleXPos = Input.mousePosition.x / Screen.width * screenWidthInWorld;
+        paddleXPos = Mathf.Clamp(paddleXPos, paddlePosXMin, paddlePosXMax);
+        Vector2 newPaddlePos = new Vector2(paddleXPos, transform.position.y);
+        transform.position = newPaddlePos;
 	}
 }
