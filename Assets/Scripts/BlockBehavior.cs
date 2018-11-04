@@ -11,15 +11,28 @@ public class BlockBehavior : MonoBehaviour {
     [SerializeField] public Sprite HalfBlock;
     [SerializeField] public Sprite HollowBlock;
     [SerializeField] public int HitPoint = 3;
+    [SerializeField] public AudioClip DestroySound;
+
+    // state
+    private GameController _gameController;
+
+    private void Start()
+    {
+        _gameController = FindObjectOfType<GameController>();
+        if (_gameController) 
+        {
+            _gameController.IncrementBreakableBlock();
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider is CircleCollider2D) 
         {
             HitPoint--;
-            if (HitPoint <= 0) 
+            if (HitPoint <= 0)
             {
-                Destroy(this.gameObject);
+                DestroyBlock();
             }
             else if (HitPoint == 2)
             {
@@ -30,5 +43,15 @@ public class BlockBehavior : MonoBehaviour {
                 spriteRenderer.sprite = HollowBlock;
             }
         }
+    }
+
+    private void DestroyBlock()
+    {
+        if (_gameController)
+        {
+            _gameController.DecrementBreakableBlock();
+        }
+        AudioSource.PlayClipAtPoint(DestroySound, transform.position);
+        Destroy(gameObject);
     }
 }

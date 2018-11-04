@@ -14,6 +14,7 @@ public class BallBehavior : MonoBehaviour
     [SerializeField] public float CameraShakeWait = 0.01f;
     [SerializeField] public int CameraShakeCount = 4;
     [SerializeField] public float BallSpeed = 10f;
+    [SerializeField] public AudioClip[] BallSounds;
 
     // states
     private Vector2 _distance;
@@ -21,6 +22,9 @@ public class BallBehavior : MonoBehaviour
     private bool _launched;
     private Vector2 _ballDirection;
     private Vector3 _originalCameraPos;
+
+    // cached components
+    private AudioSource _audioSource;
 
 	// Use this for initialization
 	void Start () 
@@ -30,6 +34,7 @@ public class BallBehavior : MonoBehaviour
         _rigidbody2DComponent = GetComponent<Rigidbody2D>();
         _ballDirection = new Vector2(0, 1);
         _originalCameraPos = SceneCamera.transform.position;
+        _audioSource = GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -62,9 +67,18 @@ public class BallBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Block") 
+        if (_launched)
         {
-            StartCoroutine("ShakeCamera");
+            AudioClip playSound = BallSounds[Random.Range(0, BallSounds.Length)];
+            if (_audioSource)
+            {
+                _audioSource.PlayOneShot(playSound);
+            }
+
+            if (collision.collider.tag == "Block")
+            {
+                StartCoroutine("ShakeCamera");
+            }
         }
     }
 

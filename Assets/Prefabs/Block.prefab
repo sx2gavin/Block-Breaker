@@ -83,6 +83,7 @@ MonoBehaviour:
   HalfBlock: {fileID: 21300000, guid: c8ded6842b2d9d449af5b55e6c38386f, type: 3}
   HollowBlock: {fileID: 21300000, guid: 0eb330db68e803842920d48c7f7f3e71, type: 3}
   HitPoint: 1
+  DestroySound: {fileID: 8300000, guid: 19b8616934c6445c5b6807efed43d851, type: 3}
 --- !u!212 &212942213447372148
 SpriteRenderer:
   m_ObjectHideFlags: 1

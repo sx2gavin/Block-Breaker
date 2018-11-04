@@ -1,22 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour 
+{
+    [SerializeField] public GameObject NextLevelButton;
 
-    [SerializeField] public Button NextLevelButton;
-    [SerializeField] public GameObject LstBlocks;
+    private int _breakableBlockCount = 0;
 
-	// Use this for initialization
-	void Start () 
+    private void Start()
     {
-		
-	}
+        NextLevelButton.SetActive(false);
+    }
 
-    // Update is called once per frame
-    void Update()
+    public void IncrementBreakableBlock() 
     {
+        _breakableBlockCount++;
+    }
 
+    public void DecrementBreakableBlock()
+    {
+        _breakableBlockCount--;
+
+        if (_breakableBlockCount < 1) 
+        {
+            NextLevelButton.SetActive(true);
+        }
     }
 }

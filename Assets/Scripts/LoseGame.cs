@@ -5,11 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class LoseGame : MonoBehaviour {
 
+    [SerializeField] GameObject ResetButton;
+
+    private void Start()
+    {
+        ResetButton.SetActive(false);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Ball") 
-        {
-            SceneManager.LoadScene("Game Over");
-        }
+        ResetButton.SetActive(true);
     }
 }
