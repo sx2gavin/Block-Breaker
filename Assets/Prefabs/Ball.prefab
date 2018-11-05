@@ -187,10 +187,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Paddle: {fileID: 0}
   SceneCamera: {fileID: 0}
-  CameraShakeFactor: 0.05
+  CameraShakeFactor: 0.1
   CameraShakeWait: 0.01
   CameraShakeCount: 8
-  BallSpeed: 12
+  BallSpeed: 10
   BallSounds:
   - {fileID: 8300000, guid: 4d0a64171caa74c4eaf7e6effa160485, type: 3}
   - {fileID: 8300000, guid: 2e4eca6c88ea9434a8068c4f18da51eb, type: 3}

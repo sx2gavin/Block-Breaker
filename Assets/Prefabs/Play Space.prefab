@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c62702cab484858899992998adf688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ResetButton: {fileID: 0}
+  _resetButton: {fileID: 0}
 --- !u!212 &212200045927764990
 SpriteRenderer:
   m_ObjectHideFlags: 1

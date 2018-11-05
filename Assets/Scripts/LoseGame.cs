@@ -5,15 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class LoseGame : MonoBehaviour {
 
-    [SerializeField] GameObject ResetButton;
+    [SerializeField] 
+    private GameObject _resetButton;
 
     private void Start()
     {
-        ResetButton.SetActive(false);
+        _resetButton.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        ResetButton.SetActive(true);
+        _resetButton.SetActive(true);
     }
 }

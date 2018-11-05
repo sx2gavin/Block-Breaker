@@ -51,5 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 787342ec8acf045bca1fe50d4f2a68ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextLevelButton: {fileID: 0}
-  LstBlocks: {fileID: 0}
+  _nextLevelButton: {fileID: 0}
+  _scoreText: {fileID: 0}
+  _gameSpeed: 1
+  _gameScore: 0
+  _scorePerBlock: 100

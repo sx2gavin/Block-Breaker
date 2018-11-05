@@ -534,6 +534,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114895608535202038, guid: 33a69f799c051470e9db9293fa64080d,
+        type: 2}
+      propertyPath: _resetButton
+      value: 
+      objectReference: {fileID: 1357850654}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33a69f799c051470e9db9293fa64080d, type: 2}
   m_IsPrefabAsset: 0
@@ -766,6 +771,16 @@ Prefab:
       propertyPath: LstBlocks
       value: 
       objectReference: {fileID: 811557413}
+    - target: {fileID: 114006686187610568, guid: ebc6b415d69e84fa8b30fc987a1d77ce,
+        type: 2}
+      propertyPath: _nextLevelButton
+      value: 
+      objectReference: {fileID: 949640699}
+    - target: {fileID: 114006686187610568, guid: ebc6b415d69e84fa8b30fc987a1d77ce,
+        type: 2}
+      propertyPath: _scoreText
+      value: 
+      objectReference: {fileID: 1668107774}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebc6b415d69e84fa8b30fc987a1d77ce, type: 2}
   m_IsPrefabAsset: 0
@@ -1539,7 +1554,9 @@ Prefab:
       propertyPath: SceneCamera
       value: 
       objectReference: {fileID: 1822497450}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 199534928060690304, guid: a615d83554c50407b9c1286f979918cc, type: 2}
+    - {fileID: 198004632522470488, guid: a615d83554c50407b9c1286f979918cc, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: a615d83554c50407b9c1286f979918cc, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1001 &1123055768
@@ -2338,9 +2355,29 @@ Prefab:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1407529880683740, guid: 03d46244ee20d4950819924d821f4d87, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114893168258450464, guid: 03d46244ee20d4950819924d821f4d87,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadNextScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 114655772490281976, guid: 03d46244ee20d4950819924d821f4d87,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReloadScene
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03d46244ee20d4950819924d821f4d87, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &1668107774 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114620821157128470, guid: 03d46244ee20d4950819924d821f4d87,
+    type: 2}
+  m_PrefabInternal: {fileID: 1668107773}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 --- !u!1001 &1668135149
 Prefab:
   m_ObjectHideFlags: 0
