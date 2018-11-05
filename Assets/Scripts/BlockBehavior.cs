@@ -14,14 +14,14 @@ public class BlockBehavior : MonoBehaviour {
     [SerializeField] public AudioClip DestroySound;
 
     // state
-    private GameController _gameController;
+    private Level _level;
 
     private void Start()
     {
-        _gameController = FindObjectOfType<GameController>();
-        if (_gameController) 
+        _level = FindObjectOfType<Level>();
+        if (_level) 
         {
-            _gameController.IncrementBreakableBlock();
+            _level.IncrementBreakableBlock();
         }
     }
 
@@ -47,9 +47,13 @@ public class BlockBehavior : MonoBehaviour {
 
     private void DestroyBlock()
     {
-        if (_gameController)
+        if (_level)
         {
-            _gameController.DecrementBreakableBlock();
+            _level.DecrementBreakableBlock();
+        }
+        else
+        {
+            Debug.LogError("Error: Game Controller not found.");
         }
         AudioSource.PlayClipAtPoint(DestroySound, transform.position);
         Destroy(gameObject);
