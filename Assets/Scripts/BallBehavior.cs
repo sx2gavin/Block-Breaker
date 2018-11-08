@@ -15,26 +15,27 @@ public class BallBehavior : MonoBehaviour
     [SerializeField] public int CameraShakeCount = 4;
     [SerializeField] public float BallSpeed = 10f;
     [SerializeField] public AudioClip[] BallSounds;
+    [SerializeField] public float BallRandomFactor = 0.2f;
 
     // states
     private Vector2 _distance;
-    private Rigidbody2D _rigidbody2DComponent;
     private bool _launched;
     private Vector2 _ballDirection;
     private Vector3 _originalCameraPos;
 
     // cached components
     private AudioSource _audioSource;
+    private Rigidbody2D _rigidbody2DComponent;
 
 	// Use this for initialization
 	void Start () 
     {
         _launched = false;
         _distance = transform.position - Paddle.transform.position;
-        _rigidbody2DComponent = GetComponent<Rigidbody2D>();
         _ballDirection = new Vector2(0, 1);
         _originalCameraPos = SceneCamera.transform.position;
         _audioSource = GetComponent<AudioSource>();
+        _rigidbody2DComponent = GetComponent<Rigidbody2D>();
     }
 	
 	// Update is called once per frame
@@ -69,16 +70,30 @@ public class BallBehavior : MonoBehaviour
     {
         if (_launched)
         {
-            AudioClip playSound = BallSounds[Random.Range(0, BallSounds.Length)];
-            if (_audioSource)
-            {
-                _audioSource.PlayOneShot(playSound);
-            }
+            ApplyRandomForceToBall();
+            PlayBallHitSound();
 
-            if (collision.collider.tag == "Block")
+            if (collision.collider.tag == "Breakable")
             {
                 StartCoroutine("ShakeCamera");
             }
+        }
+    }
+
+    private void ApplyRandomForceToBall()
+    {
+        float x = Random.Range(0, BallRandomFactor);
+        float y = Random.Range(0, BallRandomFactor);
+        Vector2 randomForce = new Vector2(x, y);
+        _rigidbody2DComponent.velocity += randomForce;
+    }
+
+    private void PlayBallHitSound()
+    {
+        AudioClip playSound = BallSounds[Random.Range(0, BallSounds.Length)];
+        if (_audioSource)
+        {
+            _audioSource.PlayOneShot(playSound);
         }
     }
 

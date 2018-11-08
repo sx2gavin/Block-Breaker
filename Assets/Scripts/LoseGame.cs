@@ -7,7 +7,7 @@ public class LoseGame : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameState gameState = FindObjectOfType<GameState>();
+        GameSession gameState = FindObjectOfType<GameSession>();
         if (gameState)
         {
             gameState.LoseGame();

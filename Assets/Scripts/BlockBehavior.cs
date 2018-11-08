@@ -6,22 +6,24 @@ using UnityEngine;
 public class BlockBehavior : MonoBehaviour {
 
     // config paramters
-    [SerializeField] public SpriteRenderer spriteRenderer;
-    [SerializeField] public Sprite FullBlock;
-    [SerializeField] public Sprite HalfBlock;
-    [SerializeField] public Sprite HollowBlock;
-    [SerializeField] public int HitPoint = 3;
+    [SerializeField] public Sprite[] BlockSprites;
+    [SerializeField] public int MaxHitPoints = 3;
     [SerializeField] public AudioClip DestroySound;
+    [SerializeField] public GameObject blockHitVFX;
 
     // state
     private Level _level;
+    private int _currentHits = 0;
 
     private void Start()
     {
         _level = FindObjectOfType<Level>();
         if (_level) 
         {
-            _level.IncrementBreakableBlock();
+            if (tag == "Breakable")
+            {
+                _level.IncrementBreakableBlock();
+            }
         }
     }
 
@@ -29,18 +31,40 @@ public class BlockBehavior : MonoBehaviour {
     {
         if (collision.collider is CircleCollider2D) 
         {
-            HitPoint--;
-            if (HitPoint <= 0)
+            if (tag == "Breakable")
             {
-                DestroyBlock();
+                TriggerBlockHitVFX(collision.GetContact(0).point);
+                _currentHits++;
+                if (_currentHits >= MaxHitPoints)
+                {
+                    DestroyBlock();
+                }
+                else
+                {
+                    UpdateSpriteBasedOnHits();
+                }
             }
-            else if (HitPoint == 2)
+        }
+    }
+
+    private void UpdateSpriteBasedOnHits()
+    {
+        SpriteRenderer render = GetComponent<SpriteRenderer>();
+        if (render)
+        {
+            int spriteIndex = _currentHits;
+            if (spriteIndex >= BlockSprites.Length) 
             {
-                spriteRenderer.sprite = HalfBlock;
+                spriteIndex = BlockSprites.Length - 1;
             }
-            else if (HitPoint == 1)
+
+            if (BlockSprites[spriteIndex] != null)
             {
-                spriteRenderer.sprite = HollowBlock;
+                render.sprite = BlockSprites[spriteIndex];
+            }
+            else
+            {
+                Debug.LogError("One of the block sprites is missing from " + gameObject.name);
             }
         }
     }
@@ -57,5 +81,13 @@ public class BlockBehavior : MonoBehaviour {
         }
         AudioSource.PlayClipAtPoint(DestroySound, transform.position);
         Destroy(gameObject);
+    }
+
+    private void TriggerBlockHitVFX(Vector3 position)
+    {
+        Vector3 playVFXPos = position;
+        playVFXPos.z = -0.01f;
+        GameObject sparkle = Instantiate(blockHitVFX, playVFXPos, Quaternion.identity);
+        Destroy(sparkle, 1.0f);
     }
 }

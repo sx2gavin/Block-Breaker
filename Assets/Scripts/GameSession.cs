@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class GameState : MonoBehaviour
+public class GameSession : MonoBehaviour
 {
     // Config parameters
     [SerializeField]
@@ -17,13 +17,22 @@ public class GameState : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _scoreText;
 
-
     [SerializeField]
     private int _gameScore = 0;
 
     [SerializeField]
     private int _scorePerBlock = 100;
 
+    [SerializeField]
+    private bool _isAutoPlayEnabled = false;
+
+    public bool IsAutoPlayEnabled
+    {
+        get
+        {
+            return _isAutoPlayEnabled;
+        }
+    }
 
     public void LoseGame()
     {
@@ -56,7 +65,7 @@ public class GameState : MonoBehaviour
 
     private void Awake()
     {
-        int gameStatesCount = FindObjectsOfType<GameState>().Length;
+        int gameStatesCount = FindObjectsOfType<GameSession>().Length;
         if (gameStatesCount > 1) 
         {
             Destroy(gameObject);

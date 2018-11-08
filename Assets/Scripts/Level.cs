@@ -25,7 +25,7 @@ public class Level : MonoBehaviour {
 
     private static void IncrementGameScore()
     {
-        GameState game = FindObjectOfType<GameState>();
+        GameSession game = FindObjectOfType<GameSession>();
         if (game)
         {
             game.IncrementGameScore();
@@ -37,7 +37,7 @@ public class Level : MonoBehaviour {
         if (_breakableBlockCount < 1)
         {
             _gameSpeed *= 0.2f;
-            GameState game = FindObjectOfType<GameState>();
+            GameSession game = FindObjectOfType<GameSession>();
             if (game)
             {
                 game.WinLevel();
