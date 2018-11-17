@@ -24,6 +24,14 @@ public class GameSession : MonoBehaviour
         }
     }
 
+	public int GameScore
+	{
+		get
+		{
+			return _gameScore;
+		}
+	}
+
     public void LoseGame()
     {
         _uiBackground.SetActive(true);
