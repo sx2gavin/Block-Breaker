@@ -105,9 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5c232ab7deb4a94ab79a604399d73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenWidthInWorld: 16
-  paddlePosXMin: 1
-  paddlePosXMax: 15
+  _screenWidthInWorld: 16
+  _paddlePosXMin: 1
+  _paddlePosXMax: 15
+  _ball: {fileID: 0}
 --- !u!212 &212249190303345702
 SpriteRenderer:
   m_ObjectHideFlags: 1

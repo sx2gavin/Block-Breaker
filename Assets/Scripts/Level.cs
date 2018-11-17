@@ -5,7 +5,7 @@ using UnityEngine;
 public class Level : MonoBehaviour {
 
     [SerializeField]
-    [Range(0.1f, 2f)]
+    [Range(0.1f, 10f)]
     private float _gameSpeed = 1.0f;
 
     // state

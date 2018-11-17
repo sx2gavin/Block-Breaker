@@ -8,20 +8,20 @@ public class BallBehavior : MonoBehaviour
 {
 
     // config parameters
-    [SerializeField] public PaddleBehavior Paddle;
-    [SerializeField] public Camera SceneCamera;
-    [SerializeField] public float CameraShakeFactor = 0.01f;
-    [SerializeField] public float CameraShakeWait = 0.01f;
-    [SerializeField] public int CameraShakeCount = 4;
-    [SerializeField] public float BallSpeed = 10f;
-    [SerializeField] public AudioClip[] BallSounds;
-    [SerializeField] public float BallRandomFactor = 0.2f;
+    [SerializeField] private PaddleBehavior _paddle;
+    [SerializeField] private Camera _sceneCamera;
+    [SerializeField] private float _cameraShakeFactor = 0.1f;
+    [SerializeField] private float _cameraShakeWait = 0.01f;
+    [SerializeField] private int _cameraShakeCount = 8;
+    [SerializeField] private float _ballSpeed = 10f;
+    [SerializeField] private AudioClip[] _ballSounds;
+    [SerializeField] private float _ballRandomFactor = 1f;
 
     // states
     private Vector2 _distance;
     private bool _launched;
-    private Vector2 _ballDirection;
     private Vector3 _originalCameraPos;
+    private float _launchAngleRange = 60.0f;
 
     // cached components
     private AudioSource _audioSource;
@@ -31,9 +31,8 @@ public class BallBehavior : MonoBehaviour
 	void Start () 
     {
         _launched = false;
-        _distance = transform.position - Paddle.transform.position;
-        _ballDirection = new Vector2(0, 1);
-        _originalCameraPos = SceneCamera.transform.position;
+        _distance = transform.position - _paddle.transform.position;
+        _originalCameraPos = _sceneCamera.transform.position;
         _audioSource = GetComponent<AudioSource>();
         _rigidbody2DComponent = GetComponent<Rigidbody2D>();
     }
@@ -55,14 +54,18 @@ public class BallBehavior : MonoBehaviour
             _launched = true;
             if (_rigidbody2DComponent != null)
             {
-                _rigidbody2DComponent.velocity = BallSpeed * _ballDirection;
+                float randomLaunchAngle = Random.Range(90.0f - _launchAngleRange / 2, 90.0f + _launchAngleRange / 2);
+                float x = Mathf.Cos(randomLaunchAngle * Mathf.Deg2Rad);
+                float y = Mathf.Sin(randomLaunchAngle * Mathf.Deg2Rad);
+                Vector2 ballDirection = new Vector2(x, y);
+                _rigidbody2DComponent.velocity = _ballSpeed * ballDirection;
             }
         }
     }
 
     private void StickBallToPaddle()
     {
-        Vector2 paddlePos = new Vector2(Paddle.transform.position.x, Paddle.transform.position.y);
+        Vector2 paddlePos = new Vector2(_paddle.transform.position.x, _paddle.transform.position.y);
         transform.position = paddlePos + _distance;
     }
 
@@ -70,7 +73,7 @@ public class BallBehavior : MonoBehaviour
     {
         if (_launched)
         {
-            ApplyRandomForceToBall();
+            AddRandomAngleToBall();
             PlayBallHitSound();
 
             if (collision.collider.tag == "Breakable")
@@ -80,17 +83,26 @@ public class BallBehavior : MonoBehaviour
         }
     }
 
-    private void ApplyRandomForceToBall()
+    private void AddRandomAngleToBall()
     {
+        /*
         float x = Random.Range(0, BallRandomFactor);
         float y = Random.Range(0, BallRandomFactor);
         Vector2 randomForce = new Vector2(x, y);
-        _rigidbody2DComponent.velocity += randomForce;
+        */
+        Vector2 currentVelocity = _rigidbody2DComponent.velocity;
+        float magnitude = currentVelocity.magnitude;
+        float angle = Mathf.Atan2(currentVelocity.y, currentVelocity.x);
+        float randomAngleDelta = Random.Range(-_ballRandomFactor, _ballRandomFactor);
+        angle += randomAngleDelta * Mathf.Deg2Rad;
+        currentVelocity.x = Mathf.Cos(angle) * magnitude;
+        currentVelocity.y = Mathf.Sin(angle) * magnitude;
+        _rigidbody2DComponent.velocity = currentVelocity;
     }
 
     private void PlayBallHitSound()
     {
-        AudioClip playSound = BallSounds[Random.Range(0, BallSounds.Length)];
+        AudioClip playSound = _ballSounds[Random.Range(0, _ballSounds.Length)];
         if (_audioSource)
         {
             _audioSource.PlayOneShot(playSound);
@@ -109,18 +121,18 @@ public class BallBehavior : MonoBehaviour
 
     private IEnumerator ShakeCamera()
     {
-        for (int i = 0; i < CameraShakeCount; i++) 
+        for (int i = 0; i < _cameraShakeCount; i++) 
         {
             ShiftCameraRandomly();
-            yield return new WaitForSeconds(CameraShakeWait);
+            yield return new WaitForSeconds(_cameraShakeWait);
         }
-        SceneCamera.transform.position = _originalCameraPos;
+        _sceneCamera.transform.position = _originalCameraPos;
     }
 
     private void ShiftCameraRandomly()
     {
-        float shiftX = Random.Range(-CameraShakeFactor, CameraShakeFactor);
-        float shiftY = Random.Range(-CameraShakeFactor, CameraShakeFactor);
-        SceneCamera.transform.position = _originalCameraPos + new Vector3(shiftX, shiftY, 0.0f);
+        float shiftX = Random.Range(-_cameraShakeFactor, _cameraShakeFactor);
+        float shiftY = Random.Range(-_cameraShakeFactor, _cameraShakeFactor);
+        _sceneCamera.transform.position = _originalCameraPos + new Vector3(shiftX, shiftY, 0.0f);
     }
 }

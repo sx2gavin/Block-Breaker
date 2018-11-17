@@ -185,18 +185,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff77641535c9648b2ba9ed9209df7464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Paddle: {fileID: 0}
-  SceneCamera: {fileID: 0}
-  CameraShakeFactor: 0.1
-  CameraShakeWait: 0.01
-  CameraShakeCount: 8
-  BallSpeed: 10
-  BallSounds:
+  _paddle: {fileID: 0}
+  _sceneCamera: {fileID: 0}
+  _cameraShakeFactor: 0.1
+  _cameraShakeWait: 0.01
+  _cameraShakeCount: 8
+  _ballSpeed: 10
+  _ballSounds:
   - {fileID: 8300000, guid: 4d0a64171caa74c4eaf7e6effa160485, type: 3}
   - {fileID: 8300000, guid: 2e4eca6c88ea9434a8068c4f18da51eb, type: 3}
   - {fileID: 8300000, guid: f36d63e16132548beb92a59b64096be1, type: 3}
   - {fileID: 8300000, guid: cad1fd169833146a7af11ae5dbbda5fa, type: 3}
   - {fileID: 8300000, guid: 3946c3834a27d4687980f03e3a6b95f1, type: 3}
+  _ballRandomFactor: 1
 --- !u!212 &212917437161740230
 SpriteRenderer:
   m_ObjectHideFlags: 1

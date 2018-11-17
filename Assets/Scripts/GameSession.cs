@@ -8,23 +8,13 @@ using TMPro;
 public class GameSession : MonoBehaviour
 {
     // Config parameters
-    [SerializeField]
-    private GameObject _nextLevelButton;
-
-    [SerializeField]
-    private GameObject _tryAgainButton;
-
-    [SerializeField]
-    private TextMeshProUGUI _scoreText;
-
-    [SerializeField]
-    private int _gameScore = 0;
-
-    [SerializeField]
-    private int _scorePerBlock = 100;
-
-    [SerializeField]
-    private bool _isAutoPlayEnabled = false;
+    [SerializeField] GameObject _nextLevelButton;
+    [SerializeField] GameObject _tryAgainButton;
+    [SerializeField] GameObject _uiBackground;
+    [SerializeField] TextMeshProUGUI _scoreText;
+    [SerializeField] int _gameScore = 0;
+    [SerializeField] int _scorePerBlock = 100;
+    [SerializeField] bool _isAutoPlayEnabled = false;
 
     public bool IsAutoPlayEnabled
     {
@@ -36,11 +26,13 @@ public class GameSession : MonoBehaviour
 
     public void LoseGame()
     {
+        _uiBackground.SetActive(true);
         _tryAgainButton.SetActive(true);
     }
 
     public void WinLevel()
     {
+        _uiBackground.SetActive(true);
         _nextLevelButton.SetActive(true);
     }
 
@@ -52,6 +44,7 @@ public class GameSession : MonoBehaviour
 
     public void ResetLevelExceptForScores()
     {
+        _uiBackground.SetActive(false);
         _tryAgainButton.SetActive(false);
         _nextLevelButton.SetActive(false);
     }
